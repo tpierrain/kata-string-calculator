@@ -40,6 +40,14 @@ namespace StringCalculator.Tests
 
             Check.That(result).IsEqualTo(expectedResult);
         }
+
+        [Test]
+        public void Allow_to_handle_a_different_delimiter_when_specified_at_the_beginning_of_the_string()
+        {
+            var result = StringCalculator.Add("//;\n1;2");
+
+            Check.That(result).IsEqualTo(3);
+        }
     }
 
     public static class StringCalculator
