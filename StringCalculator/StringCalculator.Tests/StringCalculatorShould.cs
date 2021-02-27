@@ -85,6 +85,11 @@ namespace StringCalculator.Tests
             {
                 if (int.TryParse(number, out var value))
                 {
+                    if (value > 1000)
+                    {
+                        continue;
+                    }
+
                     if (value < 0)
                     {
                         negativeValues.Add(value);
