@@ -31,12 +31,12 @@ namespace StringCalculator.Tests
             Check.That(result).IsEqualTo(2);
         }
 
-        [Test]
-        public void Identify_numbers_separated_with_newline()
+        [TestCase("1\n2,3", 6)]
+        public void Identify_numbers_separated_with_newline(string numbers, int expectedResult)
         {
-            var result = StringCalculator.Add("1\n2,3");
+            var result = StringCalculator.Add(numbers);
 
-            Check.That(result).IsEqualTo(6);
+            Check.That(result).IsEqualTo(expectedResult);
         }
     }
 
@@ -45,8 +45,8 @@ namespace StringCalculator.Tests
         public static int Add(string numbers)
         {
             var result = 0;
-            numbers = numbers.Replace('\n', ',');
-            var splitNumbers = numbers.Split(",");
+
+            var splitNumbers = SplitNumbers(numbers);
 
             foreach (var number in splitNumbers)
             {
@@ -57,6 +57,16 @@ namespace StringCalculator.Tests
             }
             
             return result;
+        }
+
+        private static string[] SplitNumbers(string numbers)
+        {
+            var otherSeparator = '\n';
+            numbers = numbers.Replace(otherSeparator, ',');
+
+            var splitNumbers = numbers.Split(",");
+
+            return splitNumbers;
         }
     }
 }
