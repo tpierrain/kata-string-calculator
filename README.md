@@ -24,7 +24,7 @@ StringCalculator kataKata
 ### 4. Allow the Add method to handle a different delimiter:
 
 1. To change the delimiter, the beginning of the string will contain a separate line that looks like this: "//[delimiter]\n[numbers]"
-  - Example: "//;\n1;2" should return 3 (the delimiter is ;)
+     - Example: "//;\n1;2" should return 3 (the delimiter is ;)
 2. This first line is optional; all existing scenarios (using , or \n) should work as before.
 
 ### 5.Calling Add with a negative number will throw an exception "Negatives not allowed: "listing all negative numbers that were in the list of numbers
