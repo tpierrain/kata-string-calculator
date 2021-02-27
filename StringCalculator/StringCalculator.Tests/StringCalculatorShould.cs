@@ -37,21 +37,16 @@ namespace StringCalculator.Tests
         public static int Add(string numbers)
         {
             var result = 0;
-            var num = numbers.Split(",");
+            var splitNumbers = numbers.Split(",");
 
-            foreach (var number in num)
+            foreach (var number in splitNumbers)
             {
                 if (int.TryParse(number, out var value))
                 {
                     result += value;
                 }
             }
-
-            if (numbers == "1")
-            {
-                return 1;
-            }
-
+            
             return result;
         }
     }
