@@ -67,17 +67,16 @@ namespace StringCalculator.Tests
         {
             var result = 0;
 
-            if (numbers.IndexOf("-") >= 0)
-            {
-                throw new Exception("Negatives not allowed: -1");
-            }
-
             var splitNumbers = SplitNumbers(numbers);
 
             foreach (var number in splitNumbers)
             {
                 if (int.TryParse(number, out var value))
                 {
+                    if (value < 0)
+                    {
+                        throw new Exception($"Negatives not allowed: {value}");
+                    }
                     result += value;
                 }
             }
