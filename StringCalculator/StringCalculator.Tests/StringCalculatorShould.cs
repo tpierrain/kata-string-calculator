@@ -36,12 +36,23 @@ namespace StringCalculator.Tests
     {
         public static int Add(string numbers)
         {
+            var result = 0;
+            var num = numbers.Split(",");
+
+            foreach (var number in num)
+            {
+                if (int.TryParse(number, out var value))
+                {
+                    result += value;
+                }
+            }
+
             if (numbers == "1")
             {
                 return 1;
             }
 
-            return 0;
+            return result;
         }
     }
 }
