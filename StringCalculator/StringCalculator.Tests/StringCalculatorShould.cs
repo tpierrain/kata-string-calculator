@@ -14,6 +14,14 @@ namespace StringCalculator.Tests
 
             Check.That(result).IsEqualTo(0);
         }
+
+        [Test]
+        public void Return_the_number_when_calling_Add_with_one_number()
+        {
+            var result = StringCalculator.Add("1");
+
+            Check.That(result).IsEqualTo(1);
+        }
     }
 
     public static class StringCalculator
