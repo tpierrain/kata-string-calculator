@@ -45,6 +45,7 @@ namespace StringCalculator.Tests
         public static int Add(string numbers)
         {
             var result = 0;
+            numbers = numbers.Replace('\n', ',');
             var splitNumbers = numbers.Split(",");
 
             foreach (var number in splitNumbers)
