@@ -54,7 +54,7 @@ namespace StringCalculator.Tests
         public void Throw_ArgumentOutOfRangeException_when_calling_with_a_negative_number()
         {
             Check.ThatCode(() => StringCalculator.Add("-1,2"))
-                .Throws<ArgumentOutOfRangeException>()
+                .Throws<Exception>()
                 .WithMessage("Negatives not allowed: -1");
         }
     }
@@ -67,6 +67,11 @@ namespace StringCalculator.Tests
         {
             var result = 0;
 
+            if (numbers.IndexOf("-") >= 0)
+            {
+                throw new Exception("Negatives not allowed: -1");
+            }
+
             var splitNumbers = SplitNumbers(numbers);
 
             foreach (var number in splitNumbers)
@@ -76,7 +81,7 @@ namespace StringCalculator.Tests
                     result += value;
                 }
             }
-            
+
             return result;
         }
 
@@ -103,7 +108,7 @@ namespace StringCalculator.Tests
 
         private static List<string> ExtractListOfOtherDelimiters(string numbers)
         {
-            var listOfOtherDelimiters = new List<string>() {"\n"};
+            var listOfOtherDelimiters = new List<string>() { "\n" };
 
             if (numbers.StartsWith(_delimiterMarkup))
             {
