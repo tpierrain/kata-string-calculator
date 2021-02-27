@@ -50,12 +50,12 @@ namespace StringCalculator.Tests
             Check.That(result).IsEqualTo(3);
         }
 
-        [Test]
-        public void Throw_ArgumentOutOfRangeException_when_calling_with_a_negative_number()
+        [TestCase("-1,2", "Negatives not allowed: -1")]
+        public void Throw_ArgumentOutOfRangeException_when_calling_with_a_negative_number(string numbers, string exceptionMessage)
         {
-            Check.ThatCode(() => StringCalculator.Add("-1,2"))
+            Check.ThatCode(() => StringCalculator.Add(numbers))
                 .Throws<Exception>()
-                .WithMessage("Negatives not allowed: -1");
+                .WithMessage(exceptionMessage);
         }
     }
 
