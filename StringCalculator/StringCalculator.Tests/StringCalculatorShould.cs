@@ -33,6 +33,7 @@ namespace StringCalculator.Tests
 
         [TestCase("1\n2,3", 6)]
         [TestCase("1\n7,3,2\n1", 14)]
+        [TestCase("1,\n", 1)]
         public void Identify_numbers_separated_with_newline(string numbers, int expectedResult)
         {
             var result = StringCalculator.Add(numbers);
