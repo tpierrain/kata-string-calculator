@@ -49,6 +49,14 @@ namespace StringCalculator.Tests
 
             Check.That(result).IsEqualTo(3);
         }
+
+        [Test]
+        public void Throw_ArgumentOutOfRangeException_when_calling_with_a_negative_number()
+        {
+            Check.ThatCode(() => StringCalculator.Add("-1,2"))
+                .Throws<ArgumentOutOfRangeException>()
+                .WithMessage("Negatives not allowed: -1");
+        }
     }
 
     public static class StringCalculator
