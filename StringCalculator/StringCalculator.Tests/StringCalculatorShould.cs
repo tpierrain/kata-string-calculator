@@ -59,6 +59,14 @@ namespace StringCalculator.Tests
                 .Throws<Exception>()
                 .WithMessage(exceptionMessage);
         }
+
+        [Test]
+        public void Ignore_numbers_bigger_than_1000()
+        {
+            var result = StringCalculator.Add("1001,2");
+
+            Check.That(result).IsEqualTo(2);
+        }
     }
 
     public static class StringCalculator
