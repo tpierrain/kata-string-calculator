@@ -71,8 +71,15 @@ namespace StringCalculator.Tests
 
         private static string[] SplitNumbers(string numbers)
         {
-            var otherSeparator = '\n';
-            numbers = numbers.Replace(otherSeparator, ',');
+            if (numbers.StartsWith("//"))
+            {
+                var adHocDelimiter = numbers.Substring(2, numbers.IndexOf('\n') - 2);
+                numbers = numbers.Replace(adHocDelimiter, ",");
+            }
+            
+
+            var otherDelimiter = '\n';
+            numbers = numbers.Replace(otherDelimiter, ',');
 
             var splitNumbers = numbers.Split(",");
 
