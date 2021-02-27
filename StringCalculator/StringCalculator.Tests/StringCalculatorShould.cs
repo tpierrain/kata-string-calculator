@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NFluent;
 using NUnit.Framework;
 
@@ -70,16 +71,23 @@ namespace StringCalculator.Tests
 
             var splitNumbers = SplitNumbers(numbers);
 
+            var negativeValues = new List<int>();
+
             foreach (var number in splitNumbers)
             {
                 if (int.TryParse(number, out var value))
                 {
                     if (value < 0)
                     {
-                        throw new Exception($"Negatives not allowed: {value}");
+                        negativeValues.Add(value);
                     }
                     result += value;
                 }
+            }
+
+            if (negativeValues.Count > 0)
+            {
+                throw new Exception($"Negatives not allowed: {string.Join(',', negativeValues)}");
             }
 
             return result;
