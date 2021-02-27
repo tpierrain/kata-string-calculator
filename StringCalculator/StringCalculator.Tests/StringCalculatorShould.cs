@@ -22,6 +22,14 @@ namespace StringCalculator.Tests
 
             Check.That(result).IsEqualTo(1);
         }
+
+        [Test]
+        public void Return_the_sum_of_2_numbers()
+        {
+            var result = StringCalculator.Add("1,1");
+
+            Check.That(result).IsEqualTo(2);
+        }
     }
 
     public static class StringCalculator
