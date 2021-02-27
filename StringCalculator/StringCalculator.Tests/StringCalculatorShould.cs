@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NFluent;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace StringCalculator.Tests
 {
@@ -76,29 +77,23 @@ namespace StringCalculator.Tests
         public static int Add(string numbers)
         {
             var result = 0;
-
-            var splitNumbers = SplitNumbers(numbers);
-
             var negativeValues = new List<int>();
 
-            foreach (var number in splitNumbers)
-            {
-                if (int.TryParse(number, out var value))
-                {
-                    if (value > 1000)
-                    {
-                        continue;
-                    }
+            var numberCandidates = Split(numbers);
 
-                    if (value < 0)
-                    {
-                        negativeValues.Add(value);
-                    }
-                    result += value;
+            foreach (var numberCandidate in numberCandidates)
+            {
+                var parsedNumber = TryParseNumber(numberCandidate);
+
+                if (parsedNumber.HasValue && ShouldNotBeIgnored(parsedNumber))
+                {
+                    RememberValueIfNegative(value: parsedNumber.Value, negativeValues);
+
+                    result += parsedNumber.Value;
                 }
             }
 
-            if (negativeValues.Count > 0)
+            if (HasFoundNegativeValue(negativeValues))
             {
                 throw new Exception($"Negatives not allowed: {string.Join(',', negativeValues)}");
             }
@@ -106,7 +101,37 @@ namespace StringCalculator.Tests
             return result;
         }
 
-        private static IEnumerable<string> SplitNumbers(string numbers)
+        private static void RememberValueIfNegative(int value, List<int> negativeValues)
+        {
+            if (value < 0)
+            {
+                negativeValues.Add(value);
+            }
+        }
+
+        private static bool ShouldNotBeIgnored(int? validParsedNumber)
+        {
+            return validParsedNumber.Value <= 1000;
+        }
+
+        private static int? TryParseNumber(string number)
+        {
+            var succeeded = int.TryParse(number, out var value);
+
+            if (succeeded)
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+        private static bool HasFoundNegativeValue(List<int> negativeValues)
+        {
+            return negativeValues.Count > 0;
+        }
+
+        private static IEnumerable<string> Split(string numbers)
         {
             var listOfOtherDelimiters = ExtractListOfOtherDelimiters(numbers);
 
