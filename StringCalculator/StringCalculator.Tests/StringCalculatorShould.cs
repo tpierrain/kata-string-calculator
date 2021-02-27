@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NFluent;
 using NUnit.Framework;
 
@@ -52,6 +53,8 @@ namespace StringCalculator.Tests
 
     public static class StringCalculator
     {
+        private static readonly string _delimiterMarkup = "//";
+
         public static int Add(string numbers)
         {
             var result = 0;
@@ -69,21 +72,39 @@ namespace StringCalculator.Tests
             return result;
         }
 
-        private static string[] SplitNumbers(string numbers)
+        private static IEnumerable<string> SplitNumbers(string numbers)
         {
-            if (numbers.StartsWith("//"))
-            {
-                var adHocDelimiter = numbers.Substring(2, numbers.IndexOf('\n') - 2);
-                numbers = numbers.Replace(adHocDelimiter, ",");
-            }
-            
+            var listOfOtherDelimiters = ExtractListOfOtherDelimiters(numbers);
 
-            var otherDelimiter = '\n';
-            numbers = numbers.Replace(otherDelimiter, ',');
+            numbers = ReplaceAllOtherDelimitersWithComma(numbers, listOfOtherDelimiters);
 
             var splitNumbers = numbers.Split(",");
 
             return splitNumbers;
+        }
+
+        private static string ReplaceAllOtherDelimitersWithComma(string numbers, List<string> listOfOtherDelimiters)
+        {
+            foreach (var delimiter in listOfOtherDelimiters)
+            {
+                numbers = numbers.Replace(delimiter, ",");
+            }
+
+            return numbers;
+        }
+
+        private static List<string> ExtractListOfOtherDelimiters(string numbers)
+        {
+            var listOfOtherDelimiters = new List<string>() {"\n"};
+
+            if (numbers.StartsWith(_delimiterMarkup))
+            {
+                var adHocDelimiter = numbers.Substring(2, numbers.IndexOf('\n') - 2);
+
+                listOfOtherDelimiters.Add(adHocDelimiter);
+            }
+
+            return listOfOtherDelimiters;
         }
     }
 }
