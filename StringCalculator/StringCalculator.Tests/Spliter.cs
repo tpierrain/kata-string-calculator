@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace StringCalculator.Tests
 {
+    /// <summary>
+    /// Split string inputs using various delimiters (including ad-hoc/specified ones).
+    /// </summary>
     public static class Spliter
     {
         private static readonly string _delimiterMarkup = "//";

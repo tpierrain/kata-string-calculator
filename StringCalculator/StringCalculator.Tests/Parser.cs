@@ -1,5 +1,8 @@
 namespace StringCalculator.Tests
 {
+    /// <summary>
+    /// Convert string representation of numbers into integers.
+    /// </summary>
     public static class Parser
     {
         public static int? ParserTryParsedNumber(string numberCandidate)
