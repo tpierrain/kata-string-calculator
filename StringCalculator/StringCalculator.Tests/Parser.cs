@@ -1,44 +1,22 @@
-using System.Collections.Generic;
-
 namespace StringCalculator.Tests
 {
     public static class Parser
     {
-        private static readonly string _delimiterMarkup = "//";
-
-        public static IEnumerable<string> Split(string numbers)
+        public static int? ParserTryParsedNumber(string numberCandidate)
         {
-            var listOfOtherDelimiters = ExtractListOfOtherDelimiters(numbers);
-
-            numbers = ReplaceAllOtherDelimitersWithComma(numbers, listOfOtherDelimiters);
-
-            var splitNumbers = numbers.Split(",");
-
-            return splitNumbers;
+            var parsedNumber = TryParseNumber(numberCandidate);
+            return parsedNumber;
         }
-
-        private static string ReplaceAllOtherDelimitersWithComma(string numbers, List<string> listOfOtherDelimiters)
+        private static int? TryParseNumber(string number)
         {
-            foreach (var delimiter in listOfOtherDelimiters)
+            var succeeded = int.TryParse(number, out var value);
+
+            if (succeeded)
             {
-                numbers = numbers.Replace(delimiter, ",");
+                return value;
             }
 
-            return numbers;
-        }
-
-        private static List<string> ExtractListOfOtherDelimiters(string numbers)
-        {
-            var listOfOtherDelimiters = new List<string>() { "\n" };
-
-            if (numbers.StartsWith(_delimiterMarkup))
-            {
-                var adHocDelimiter = numbers.Substring(2, numbers.IndexOf('\n') - 2);
-
-                listOfOtherDelimiters.Add(adHocDelimiter);
-            }
-
-            return listOfOtherDelimiters;
+            return null;
         }
     }
 }

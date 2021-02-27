@@ -10,13 +10,13 @@ namespace StringCalculator.Tests
             var result = 0;
             var negativeValues = new List<int>();
 
-            var numberCandidates = Parser.Split(numbers);
+            var numberCandidates = Spliter.Split(numbers);
 
             foreach (var numberCandidate in numberCandidates)
             {
-                var parsedNumber = TryParseNumber(numberCandidate);
+                var parsedNumber = Parser.ParserTryParsedNumber(numberCandidate);
 
-                if (parsedNumber.HasValue && ShouldNotBeIgnored(parsedNumber))
+                if (Filter.Pass(parsedNumber))
                 {
                     RememberValueIfNegative(value: parsedNumber.Value, negativeValues);
 
@@ -38,23 +38,6 @@ namespace StringCalculator.Tests
             {
                 negativeValues.Add(value);
             }
-        }
-
-        private static bool ShouldNotBeIgnored(int? validParsedNumber)
-        {
-            return validParsedNumber.Value <= 1000;
-        }
-
-        private static int? TryParseNumber(string number)
-        {
-            var succeeded = int.TryParse(number, out var value);
-
-            if (succeeded)
-            {
-                return value;
-            }
-
-            return null;
         }
 
         private static bool HasFoundNegativeValue(List<int> negativeValues)
