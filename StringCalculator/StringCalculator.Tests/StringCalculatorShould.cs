@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using NFluent;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace StringCalculator.Tests
 {
@@ -67,103 +64,6 @@ namespace StringCalculator.Tests
             var result = StringCalculator.Add("1001,2");
 
             Check.That(result).IsEqualTo(2);
-        }
-    }
-
-    public static class StringCalculator
-    {
-        private static readonly string _delimiterMarkup = "//";
-
-        public static int Add(string numbers)
-        {
-            var result = 0;
-            var negativeValues = new List<int>();
-
-            var numberCandidates = Split(numbers);
-
-            foreach (var numberCandidate in numberCandidates)
-            {
-                var parsedNumber = TryParseNumber(numberCandidate);
-
-                if (parsedNumber.HasValue && ShouldNotBeIgnored(parsedNumber))
-                {
-                    RememberValueIfNegative(value: parsedNumber.Value, negativeValues);
-
-                    result += parsedNumber.Value;
-                }
-            }
-
-            if (HasFoundNegativeValue(negativeValues))
-            {
-                throw new Exception($"Negatives not allowed: {string.Join(',', negativeValues)}");
-            }
-
-            return result;
-        }
-
-        private static void RememberValueIfNegative(int value, List<int> negativeValues)
-        {
-            if (value < 0)
-            {
-                negativeValues.Add(value);
-            }
-        }
-
-        private static bool ShouldNotBeIgnored(int? validParsedNumber)
-        {
-            return validParsedNumber.Value <= 1000;
-        }
-
-        private static int? TryParseNumber(string number)
-        {
-            var succeeded = int.TryParse(number, out var value);
-
-            if (succeeded)
-            {
-                return value;
-            }
-
-            return null;
-        }
-
-        private static bool HasFoundNegativeValue(List<int> negativeValues)
-        {
-            return negativeValues.Count > 0;
-        }
-
-        private static IEnumerable<string> Split(string numbers)
-        {
-            var listOfOtherDelimiters = ExtractListOfOtherDelimiters(numbers);
-
-            numbers = ReplaceAllOtherDelimitersWithComma(numbers, listOfOtherDelimiters);
-
-            var splitNumbers = numbers.Split(",");
-
-            return splitNumbers;
-        }
-
-        private static string ReplaceAllOtherDelimitersWithComma(string numbers, List<string> listOfOtherDelimiters)
-        {
-            foreach (var delimiter in listOfOtherDelimiters)
-            {
-                numbers = numbers.Replace(delimiter, ",");
-            }
-
-            return numbers;
-        }
-
-        private static List<string> ExtractListOfOtherDelimiters(string numbers)
-        {
-            var listOfOtherDelimiters = new List<string>() { "\n" };
-
-            if (numbers.StartsWith(_delimiterMarkup))
-            {
-                var adHocDelimiter = numbers.Substring(2, numbers.IndexOf('\n') - 2);
-
-                listOfOtherDelimiters.Add(adHocDelimiter);
-            }
-
-            return listOfOtherDelimiters;
         }
     }
 }
