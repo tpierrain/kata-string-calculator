@@ -24,11 +24,19 @@ namespace StringCalculator.Tests
         }
 
         [Test]
-        public void Return_the_sum_of_2_numbers()
+        public void Return_the_sum_of_2_numbers_separated_with_commas()
         {
             var result = StringCalculator.Add("1,1");
 
             Check.That(result).IsEqualTo(2);
+        }
+
+        [Test]
+        public void Identify_numbers_separated_with_newline()
+        {
+            var result = StringCalculator.Add("1\n2,3");
+
+            Check.That(result).IsEqualTo(6);
         }
     }
 
