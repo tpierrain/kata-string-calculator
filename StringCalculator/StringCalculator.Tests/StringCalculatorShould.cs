@@ -51,6 +51,7 @@ namespace StringCalculator.Tests
         }
 
         [TestCase("-1,2", "Negatives not allowed: -1")]
+        [TestCase("2,-4,3,-5", "Negatives not allowed: -4,-5")]
         public void Throw_ArgumentOutOfRangeException_when_calling_with_a_negative_number(string numbers, string exceptionMessage)
         {
             Check.ThatCode(() => StringCalculator.Add(numbers))
