@@ -2,7 +2,7 @@ using System;
 using NFluent;
 using NUnit.Framework;
 
-namespace StringCalculator.Tests
+namespace StringCalculatorTests
 {
     [TestFixture]
     public class StringCalculatorShould
