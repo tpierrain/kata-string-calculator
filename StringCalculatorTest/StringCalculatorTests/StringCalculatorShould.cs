@@ -57,28 +57,25 @@ namespace StringCalculatorTests
 
             Check.That(sum).IsEqualTo(6);
         }
-    }
 
-    public class StringCalculator
-    {
-        public int Add(string expression)
+        [Test]
+        public void Support_custom_delimiter_when_expression_start_with_slashes()
         {
-            if (expression == string.Empty)
-            {
-                return 0;
-            }
+            // Arrange
+            var stringCalculator = new StringCalculator();
+            // Act
+            var sum = stringCalculator.Add("//;\n1;2");
+            // Assert
+            Check.That(sum).IsEqualTo(3);
+        }
 
-            var defaultDelimiter = ',';
+        [Test]
+        public void Raise_exception_when_expression_contains_negatives_number()
+        {
+            var stringCalculator = new StringCalculator();
 
-            var numbers = expression.Split(defaultDelimiter, '\n');
-
-            var sum = 0;
-            foreach (var number in numbers)
-            {
-                sum += int.Parse(number);
-            }
-
-            return sum;
+            Check.ThatCode(() => stringCalculator.Add("-1,2"))
+                .Throws<Exception>().WithMessage("Negatives not allowed: -1");
         }
     }
 }
