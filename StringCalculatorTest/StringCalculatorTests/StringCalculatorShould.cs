@@ -14,7 +14,7 @@ namespace StringCalculatorTests
             // ARRANGE
             var numbers = "";
             var expectedResult = 0;
-
+                
             var calculator = new StringCalculator();
             
             // ACT
@@ -23,12 +23,10 @@ namespace StringCalculatorTests
             Check.That(result).IsEqualTo(expectedResult);
         }
 
-        [Test]
-        public void Return_a_number_when_numbers_Contains_only_1_number()
+        [TestCase("1", 1)]
+        [TestCase("2", 2)]
+        public void Return_a_number_when_numbers_Contains_only_1_number(string numbers, int expectedResult)
         {
-            var numbers = "1";
-            var expectedResult = 1;
-
             var calculator = new StringCalculator();
 
             // ACT
